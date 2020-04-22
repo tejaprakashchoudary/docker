@@ -56,45 +56,21 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-<!--			<plugin>-->
-<!--				<groupId>com.spotify</groupId>-->
-<!--				<artifactId>dockerfile-maven-plugin</artifactId>-->
-<!--				<version>1.4.10</version>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<id>default</id>-->
-<!--						<goals>-->
-<!--							<goal>build</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--				<configuration>-->
-<!--					<repository>in28min/${project.name}</repository>-->
-<!--					<tag>${project.version}</tag>-->
-<!--					<skipDockerInfo>true</skipDockerInfo>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
-
 			<plugin>
 				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>${dockerfile-maven-version}</version>
-				<executions>
-					<execution>
-						<id>default</id>
-						<goals>
-							<goal>build</goal>
-							<goal>push</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>docker-maven-plugin</artifactId>
 				<configuration>
-					<repository>spotify/foobar</repository>
-					<tag>${project.version}</tag>
-					<buildArgs>
-						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-					</buildArgs>
+					<imageName>dockermanual</imageName>
+					<baseImage>java:8</baseImage>
+					<entryPoint>["java", "-jar", "${project.build.finalName}.jar"]</entryPoint>
+					<!-- copy the service's jar file from target into the root directory of the image -->
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
 				</configuration>
 			</plugin>
 		</plugins>
