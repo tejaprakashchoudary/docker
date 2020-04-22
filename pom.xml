@@ -47,6 +47,8 @@
 		</dependency>
 	</dependencies>
 
+
+
 	<build>
 		<finalName>hello-world-rest-api</finalName>
 		<plugins>
@@ -54,9 +56,29 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.10</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>in28min/${project.name}</repository>
+					<tag>${project.version}</tag>
+					<skipDockerInfo>true</skipDockerInfo>
+				</configuration>
+			</plugin>
 		</plugins>
 
 	</build>
+
 
 	<repositories>
 		<repository>
